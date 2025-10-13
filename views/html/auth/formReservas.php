@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -14,9 +12,9 @@
       background-size: cover;
       margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      height: 100vh;
       display: flex;
       flex-direction: column;
-      height: 100vh;
     }
     header {
       background-color: #155d34;
@@ -25,7 +23,6 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 15px;
     }
     header h2 {
       margin: 0;
@@ -51,40 +48,42 @@
     .content {
       flex: 1;
       display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 10px;
+      justify-content: space-around;
+      align-items: flex-start;
+      padding: 30px;
+      gap: 20px;
     }
-    .form-container {
+    .form-container, .table-container {
       background: rgba(255,255,255,0.95);
       padding: 25px;
       border-radius: 15px;
       box-shadow: 0 6px 18px rgba(0,0,0,0.25);
-      width: 550px;
-      text-align: center;
+    }
+    .form-container {
+      width: 480px;
+    }
+    .table-container {
+      flex: 1;
+      overflow-y: auto;
+      max-height: 550px;
     }
     .form-container h2 {
       font-weight: bold;
       margin-bottom: 8px;
       font-size: 24px;
     }
-    .form-container p {
-      color: #6c757d;
-      font-size: 14px;
-      margin-bottom: 20px;
-    }
-    .input-group-text {
-      background: #f1f1f1;
-    }
     .btn-primary {
       background-color: #1c8c44;
       border: none;
-      border-radius: 6px;
-      font-size: 16px;
-      padding: 10px;
     }
     .btn-primary:hover {
       background-color: #157a39;
+    }
+    .btn-action {
+      border: none;
+      padding: 5px 8px;
+      border-radius: 6px;
+      cursor: pointer;
     }
     footer {
       background-color: #155d34;
@@ -108,30 +107,27 @@
     </nav>
   </header>
 
-  <!-- Contenido con formulario -->
+  <!-- Contenido -->
   <div class="content">
+    <!-- Formulario -->
     <div class="form-container">
-      <div class="mb-2">
+      <div class="mb-2 text-center">
         <i class="fa-solid fa-calendar-check fa-2x" style="color:#1c8c44;"></i>
       </div>
       <h2>Reservar habitación</h2>
-      <p>Complete los datos para su reserva</p>
+      <p class="text-muted">Complete los datos para su reserva</p>
 
-      <form action="index.php?action=guardarReserva" method="POST">
-
-        <!-- Nombre -->
+      <form action="index.php?action=registerReserva" method="POST">
         <div class="input-group mb-3">
           <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
-          <input type="text" name="nombre" class="form-control" placeholder="Nombres" >
+          <input type="text" name="nombre" class="form-control" placeholder="Nombres" required>
         </div>
 
-        <!-- Apellido -->
         <div class="input-group mb-3">
           <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
-          <input type="text" name="apellido" class="form-control" placeholder="Apellidos" >
+          <input type="text" name="apellido" class="form-control" placeholder="Apellidos" required>
         </div>
 
-        <!-- Fechas -->
         <div class="row mb-3">
           <div class="col input-group">
             <span class="input-group-text"><i class="fa-solid fa-calendar-day"></i></span>
@@ -143,7 +139,6 @@
           </div>
         </div>
 
-        <!-- Habitación -->
         <div class="input-group mb-3">
           <span class="input-group-text"><i class="fa-solid fa-bed"></i></span>
           <select name="habitacion" class="form-select" required>
@@ -154,25 +149,66 @@
           </select>
         </div>
 
-        <!-- Número de personas -->
         <div class="input-group mb-3">
           <span class="input-group-text"><i class="fa-solid fa-user-group"></i></span>
           <input type="number" name="personas" class="form-control" placeholder="Número de personas" min="1" max="6" required>
         </div>
 
-        <!-- Comentarios -->
         <div class="input-group mb-3">
           <span class="input-group-text"><i class="fa-solid fa-comment"></i></span>
           <textarea name="comentarios" class="form-control" rows="2" placeholder="Comentarios o solicitudes especiales"></textarea>
         </div>
 
-        <!-- Botón -->
         <button type="submit" class="btn btn-primary w-100">Confirmar Reserva</button>
       </form>
     </div>
+
+    <!-- Tabla de reservas -->
+    <div class="table-container">
+      <h4 class="mb-3 text-center text-success">Reservas recientes</h4>
+      <table class="table table-striped table-bordered">
+        <thead class="table-success">
+          <tr>
+            <th>id</th>
+            <th>nombre</th>
+            <th>Apellido</th>
+            <th>Fecha entrada</th>
+            <th>fecha salida</th>
+            <th>Habitación</th>
+            <th>Numero de personas</th>
+            <th>Comentarios</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php
+          require_once "models/reservation.php";
+          $sql=$conexion->query("select * from reservations");
+          while($datos = $sql->fetch_object()){?>
+
+          <tr>
+            <td><?= $datos->id ?></td>
+            <td><?= $datos->nombre ?></td>
+            <td><?= $datos->apellido ?></td>
+            <td><?= $datos->fecha_entrada ?></td>
+            <td><?= $datos->fecha_salida ?></td>
+            <td><?= $datos->habitacion ?></td>
+            <td><?= $datos->numero_personas ?></td>
+            <td><?= $datos->comentarios ?></td>
+            <td>
+              <a href="" class="btn btn-small btn-warkin"><i class="fa-solid fa-pen-to-square"></i></a>
+              <a href="" class="btn btn-small btn-danger"><i class="fa-solid fa-trash"></i></a>
+            </td>
+          </tr>
+            
+          <?php }
+          ?>
+          
+        </tbody>
+        
+      </table>
+    </div>
   </div>
 
-  <!-- Footer -->
   <footer>
     © 2025 Hotel Naturaleza - Todos los derechos reservados
   </footer>

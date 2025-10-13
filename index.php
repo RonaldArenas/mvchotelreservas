@@ -34,12 +34,12 @@ session_start();
             $controllerBase->verPaginaInicio('views/html/auth/cerrarsesion.php');
         }
 
+        if($_GET['action'] == 'registerReserva' ){
+            $controllerBase->registerReserva($_POST);
+        }
+
     }
 
     else{
         $controllerBase->verPaginaInicio('views/html/home.php');
     }
-
-
-
-

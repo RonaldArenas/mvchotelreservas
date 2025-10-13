@@ -120,5 +120,18 @@ class ControllerBase
             header('Location: ' . SITE_URL . 'index.php?action=getFormLoginUser');
             exit;
         }
+    }    
+
+    public function registerReserva ($datos){
+        if (!empty($datos["btnregister"])){
+            if (!empty($datos["nombre"]) and !empty($datos["apellido"]) and !empty($datos["fecha_entrada"]) and !empty($datos["fecha_salida"]) and !empty($datos["habitacion"]) and !empty($datos["personas"]) and !empty($datos["comentarios"])){
+                echo "TODO OK";
+            } else {
+                echo "ALGUNO DE LOS CAMPOS ESTA VACIO";
+            }
+        }
+
     }
 }
+  
+    
