@@ -123,6 +123,16 @@
       </div>
       <h2>Iniciar Sesión</h2>
       <p>Ingresa tus datos</p>
+    
+    
+    
+      <?php if (isset($_SESSION['errors']['login'])): ?>
+    <div class="alert alert-danger" role="alert">
+        <?= $_SESSION['errors']['login']; ?>
+    </div>
+    <?php unset($_SESSION['errors']['login']); ?>
+    <?php endif; ?>
+
 
     
 

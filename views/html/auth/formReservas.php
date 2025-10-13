@@ -1,12 +1,4 @@
-<?php
 
-
-// si el usuario no está logueado, lo enviamos al login
-if (!isset($_SESSION['user'])) {
-  header('Location: index.php?action=getLoginUser');
-  exit;
-}
-?>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -130,15 +122,13 @@ if (!isset($_SESSION['user'])) {
         <!-- Nombre -->
         <div class="input-group mb-3">
           <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
-          <input type="text" name="nombre" class="form-control" 
-                 value="<?= $_SESSION['user']['name'] ?>" readonly>
+          <input type="text" name="nombre" class="form-control" placeholder="Nombres" >
         </div>
 
         <!-- Apellido -->
         <div class="input-group mb-3">
           <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
-          <input type="text" name="apellido" class="form-control" 
-                 value="<?= $_SESSION['user']['lastname'] ?>" readonly>
+          <input type="text" name="apellido" class="form-control" placeholder="Apellidos" >
         </div>
 
         <!-- Fechas -->

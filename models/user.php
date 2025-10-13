@@ -22,37 +22,14 @@
             return $conexion->getFilasAfectadas();
         }
 
-        public function validateLogin($email, $password) {
-        $conexion = new Conexion();
-        $conexion->conectar();
-
-        // Buscar usuario por email
-        $sql = "SELECT * FROM users WHERE email = '$email'";
-        $conexion->query($sql);
-        $result = $conexion->getResult();
-
-        if ($result->num_rows > 0) {
-            $user = $result->fetch_assoc();
-
-            // Verificar la contraseña cifrada
-            if (password_verify($password, $user['password'])) {
-
-                // Guardar usuario en la sesión si es necesario
-                $_SESSION['user'] = [
-                    'id'        => $user['id'],
-                    'name'      => $user['name'],
-                    'lastname'  => $user['lastname'],
-                    'email'     => $user['email'],
-                    'rol_id'    => $user['rol_id']
-                ];
-
-                $conexion->desconectar();
-                return true;
-            }
+        
+        public function validateLogin($email) {
+            $conexion = new Conexion();
+            $conexion->conectar();
+            $sql = "SELECT * FROM users where email = '$email'";
+            $conexion->query($sql);
+            $result = $conexion->getResult();
+            return $result;
+        
         }
-
-        $conexion->desconectar();
-        return false;
-    }
-
     }

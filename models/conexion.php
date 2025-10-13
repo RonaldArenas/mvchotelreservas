@@ -12,10 +12,10 @@ class conexion {
         $db = "hotel_reservas";
         $user = 'root';
         $password = '';
-        $this->mySQLI=new mysqli($host,$user,$password,$db);
-            if(mysqli_connect_error()){
-                throw new Exception('Error de conexion a la base de datos');
-            }
+        $this->mySQLI = new mysqli($host,$user,$password,$db);
+        if(mysqli_connect_error()){
+            throw new Exception('Error de conexion a la base de datos');
+        }
        echo "conectado a la base de datos";
     }
 

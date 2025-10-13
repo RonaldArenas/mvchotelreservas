@@ -22,16 +22,16 @@ session_start();
             $controllerBase->verPaginaInicio('views/html/auth/login.php');
         }
 
-        if($_GET['action'] == 'loginUser' ){
+        if($_GET['action'] == 'loginUser'){
             $controllerBase->loginUser($_POST);
         }
 
         if($_GET['action'] == 'formReservas' ){
-            $controllerBase->formReservas();
+            $controllerBase->verPaginaInicio('views/html/auth/formReservas.php');
         }
 
         if($_GET['action'] == 'logout' ){
-            $controllerBase->logout();
+            $controllerBase->verPaginaInicio('views/html/auth/cerrarsesion.php');
         }
 
     }
