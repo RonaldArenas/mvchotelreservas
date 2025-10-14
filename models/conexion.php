@@ -19,6 +19,9 @@ class conexion {
        echo "conectado a la base de datos";
     }
 
+    // $conexion=new mysqli("localhost", "root", "", "hotel_reservas");
+    // $conexion->set_charset("utf8");
+
     public function desconectar() {
         $this->mySQLI->close();
     }

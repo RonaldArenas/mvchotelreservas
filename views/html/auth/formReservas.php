@@ -114,34 +114,44 @@
       <div class="mb-2 text-center">
         <i class="fa-solid fa-calendar-check fa-2x" style="color:#1c8c44;"></i>
       </div>
-      <h2>Reservar habitación</h2>
-      <p class="text-muted">Complete los datos para su reserva</p>
+      
 
-      <form action="index.php?action=registerReserva" method="POST">
+      <form action="<?= SITE_URL ?>index.php?action=registerReserva" method="POST">
+        <h2>Reservar habitación</h2>
+        <p class="text-muted">Complete los datos para su reserva</p>
+          <?php
+              if (isset($_SESSION['reserva_msg'])) {
+                  $msg = $_SESSION['reserva_msg'];
+                  echo '<div class="alert alert-' . $msg['type'] . ' mt-2">' . $msg['text'] . '</div>';
+                  unset($_SESSION['reserva_msg']); // limpiar para no mostrarlo otra vez
+              }
+          ?>
+
+
         <div class="input-group mb-3">
           <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
-          <input type="text" name="nombre" class="form-control" placeholder="Nombres" required>
+          <input type="text" name="nombre" class="form-control" placeholder="Nombres" >
         </div>
 
         <div class="input-group mb-3">
           <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
-          <input type="text" name="apellido" class="form-control" placeholder="Apellidos" required>
+          <input type="text" name="apellido" class="form-control" placeholder="Apellidos" >
         </div>
 
         <div class="row mb-3">
           <div class="col input-group">
             <span class="input-group-text"><i class="fa-solid fa-calendar-day"></i></span>
-            <input type="date" name="fecha_entrada" class="form-control" required>
+            <input type="date" name="fecha_entrada" class="form-control" >
           </div>
           <div class="col input-group mt-2 mt-md-0">
             <span class="input-group-text"><i class="fa-solid fa-calendar-days"></i></span>
-            <input type="date" name="fecha_salida" class="form-control" required>
+            <input type="date" name="fecha_salida" class="form-control" >
           </div>
         </div>
 
         <div class="input-group mb-3">
           <span class="input-group-text"><i class="fa-solid fa-bed"></i></span>
-          <select name="habitacion" class="form-select" required>
+          <select name="habitacion" class="form-select" >
             <option value="">Tipo de habitación...</option>
             <option value="individual">Individual</option>
             <option value="doble">Doble</option>
@@ -151,7 +161,7 @@
 
         <div class="input-group mb-3">
           <span class="input-group-text"><i class="fa-solid fa-user-group"></i></span>
-          <input type="number" name="personas" class="form-control" placeholder="Número de personas" min="1" max="6" required>
+          <input type="number" name="personas" class="form-control" placeholder="Número de personas" min="1" max="6" >
         </div>
 
         <div class="input-group mb-3">
@@ -159,7 +169,7 @@
           <textarea name="comentarios" class="form-control" rows="2" placeholder="Comentarios o solicitudes especiales"></textarea>
         </div>
 
-        <button type="submit" class="btn btn-primary w-100">Confirmar Reserva</button>
+        <button type="submit" class="btn btn-primary w-100" name="btnregister" value="1">Confirmar Reserva</button>
       </form>
     </div>
 
@@ -180,10 +190,18 @@
           </tr>
         </thead>
         <tbody>
-          <?php
-          require_once "models/reservation.php";
-          $sql=$conexion->query("select * from reservations");
-          while($datos = $sql->fetch_object()){?>
+         <?php
+              // Instanciamos la clase y conectamos
+              $conexion = new conexion();
+              $conexion->conectar();
+
+              // Ejecutamos la consulta
+              $conexion->query("SELECT * FROM reservations");
+              $resultado = $conexion->getResult(); // obtenemos el resultado
+
+              // Recorremos los datos
+              while($datos = $resultado->fetch_object()):
+        ?>
 
           <tr>
             <td><?= $datos->id ?></td>
@@ -192,17 +210,14 @@
             <td><?= $datos->fecha_entrada ?></td>
             <td><?= $datos->fecha_salida ?></td>
             <td><?= $datos->habitacion ?></td>
-            <td><?= $datos->numero_personas ?></td>
+            <td><?= $datos->personas ?></td>
             <td><?= $datos->comentarios ?></td>
             <td>
               <a href="" class="btn btn-small btn-warkin"><i class="fa-solid fa-pen-to-square"></i></a>
               <a href="" class="btn btn-small btn-danger"><i class="fa-solid fa-trash"></i></a>
             </td>
           </tr>
-            
-          <?php }
-          ?>
-          
+          <?php endwhile; ?>            
         </tbody>
         
       </table>

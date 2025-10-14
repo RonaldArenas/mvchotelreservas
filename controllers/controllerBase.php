@@ -122,16 +122,28 @@ class ControllerBase
         }
     }    
 
-    public function registerReserva ($datos){
-        if (!empty($datos["btnregister"])){
-            if (!empty($datos["nombre"]) and !empty($datos["apellido"]) and !empty($datos["fecha_entrada"]) and !empty($datos["fecha_salida"]) and !empty($datos["habitacion"]) and !empty($datos["personas"]) and !empty($datos["comentarios"])){
-                echo "TODO OK";
-            } else {
-                echo "ALGUNO DE LOS CAMPOS ESTA VACIO";
-            }
-        }
+  public function registerReserva($datos){
+    unset($_SESSION['reserva_msg']); // limpiar mensaje previo
 
+    if (!empty($datos["btnregister"])) {
+        // Validamos solo los campos obligatorios
+        if (!empty(trim($datos["nombre"])) && !empty(trim($datos["apellido"])) &&
+            !empty(trim($datos["fecha_entrada"])) && !empty(trim($datos["fecha_salida"])) &&
+            !empty(trim($datos["habitacion"])) && !empty(trim($datos["personas"]))) {
+
+            $_SESSION['reserva_msg'] = ['type' => 'success', 'text' => 'TODO OK'];
+        } else {
+            $_SESSION['reserva_msg'] = ['type' => 'danger', 'text' => 'ALGUNO DE LOS CAMPOS ESTA VACIO'];
+        }
     }
+
+    // Volvemos a cargar el mismo formulario
+    header('Location: ' . SITE_URL . 'index.php?action=formReservas');
+    exit;
+}
+
+
+
 }
   
     
