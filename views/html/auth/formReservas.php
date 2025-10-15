@@ -187,6 +187,7 @@
             <th>Habitación</th>
             <th>Numero de personas</th>
             <th>Comentarios</th>
+            <th>Opciones</th>
           </tr>
         </thead>
         <tbody>
@@ -200,24 +201,24 @@
               $resultado = $conexion->getResult(); // obtenemos el resultado
 
               // Recorremos los datos
-              while($datos = $resultado->fetch_object()):
-        ?>
-
-          <tr>
-            <td><?= $datos->id ?></td>
-            <td><?= $datos->nombre ?></td>
-            <td><?= $datos->apellido ?></td>
-            <td><?= $datos->fecha_entrada ?></td>
-            <td><?= $datos->fecha_salida ?></td>
-            <td><?= $datos->habitacion ?></td>
-            <td><?= $datos->personas ?></td>
-            <td><?= $datos->comentarios ?></td>
-            <td>
-              <a href="" class="btn btn-small btn-warkin"><i class="fa-solid fa-pen-to-square"></i></a>
-              <a href="" class="btn btn-small btn-danger"><i class="fa-solid fa-trash"></i></a>
-            </td>
-          </tr>
-          <?php endwhile; ?>            
+              while($datos = $resultado->fetch_object()){?>
+                <tr>
+                  <td><?= $datos->id ?></td>
+                  <td><?= $datos->nombre ?></td>
+                  <td><?= $datos->apellido ?></td>
+                  <td><?= $datos->fecha_entrada ?></td>
+                  <td><?= $datos->fecha_salida ?></td>
+                  <td><?= $datos->habitacion ?></td>
+                  <td><?= $datos->personas ?></td>
+                  <td><?= $datos->comentarios ?></td>
+                  <td>
+                    <a href="" class="btn btn-small btn-warning"><i class="fa-solid fa-pen-to-square"></i></a>
+                    <a href="" class="btn btn-small btn-danger"><i class="fa-solid fa-trash"></i></a>
+                  </td>
+                </tr>
+              <?php }
+              ?>
+                     
         </tbody>
         
       </table>
