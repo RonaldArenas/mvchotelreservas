@@ -131,19 +131,43 @@ class ControllerBase
             !empty(trim($datos["fecha_entrada"])) && !empty(trim($datos["fecha_salida"])) &&
             !empty(trim($datos["habitacion"])) && !empty(trim($datos["personas"]))) {
 
-            $_SESSION['reserva_msg'] = ['type' => 'success', 'text' => 'TODO OK'];
+          // Conexión a la base de datos
+            require_once "models/conexion.php";
+            $conexion = new conexion();
+            $conexion->conectar();
+
+            // Escapar valores para evitar errores o inyecciones
+            $nombre = ($datos['nombre']);
+            $apellido = ($datos['apellido']);
+            $fechaEntrada = ($datos['fecha_entrada']);
+            $fechaSalida = ($datos['fecha_salida']);
+            $habitacion = ($datos['habitacion']);
+            $personas = ($datos['personas']);
+            $comentarios = !empty(trim($datos['comentarios'] ?? '')) ? trim($datos['comentarios']) : '';
+
+            // Insertar registro
+            $sql = "INSERT INTO reservations (nombre, apellido, fecha_entrada, fecha_salida, habitacion, personas, comentarios)
+                    VALUES ('$nombre', '$apellido', '$fechaEntrada', '$fechaSalida', '$habitacion', $personas, '$comentarios')";
+
+            $conexion->query($sql);
+
+            if ($conexion->getFilasAfectadas() > 0) {
+                $_SESSION['reserva_msg'] = ['type' => 'success', 'text' => 'TODO OK - Reserva registrada con éxito'];
+            } else {
+                $_SESSION['reserva_msg'] = ['type' => 'danger', 'text' => 'Error al registrar la reserva. Inténtelo de nuevo.'];
+            }
+
+            $conexion->desconectar();
+
         } else {
-            $_SESSION['reserva_msg'] = ['type' => 'danger', 'text' => 'ALGUNO DE LOS CAMPOS ESTA VACIO'];
+            $_SESSION['reserva_msg'] = ['type' => 'danger', 'text' => 'ALGUNO DE LOS CAMPOS ESTÁ VACÍO'];
         }
     }
 
-    // Volvemos a cargar el mismo formulario
+    // Volver al formulario
     header('Location: ' . SITE_URL . 'index.php?action=formReservas');
     exit;
 }
-
-
-
 }
   
     

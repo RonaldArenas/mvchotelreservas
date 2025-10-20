@@ -16,7 +16,6 @@ class conexion {
         if(mysqli_connect_error()){
             throw new Exception('Error de conexion a la base de datos');
         }
-       echo "conectado a la base de datos";
     }
 
     // $conexion=new mysqli("localhost", "root", "", "hotel_reservas");
@@ -40,4 +39,5 @@ class conexion {
         return $this->filasAfectadas;
     }
 
+  
     }
