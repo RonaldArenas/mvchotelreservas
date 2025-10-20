@@ -98,6 +98,13 @@
   <!-- Header -->
   <header>
     <h2>Hotel Naturaleza</h2>
+    <?php
+      if (isset($_SESSION['user']['name'])) {
+          echo "<h2>Bienvenido " . htmlspecialchars($_SESSION['user']['name']) . " 👋</h2>";
+      } else {
+          echo "<h2>Bienvenido invitado</h2>";
+      }
+    ?>
     <nav>
       <a href="#">Inicio</a>
       <a href="#">Habitaciones</a>
