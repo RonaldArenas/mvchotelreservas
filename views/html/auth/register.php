@@ -114,7 +114,11 @@
       <a href="#" class="btn-ingresar">Ingresar</a>
     </nav>
   </header>
-<?php $_SESSION['errors'] ?>
+    <?php
+      $errores = $_SESSION['errors'] ?? [];
+      $old = $_SESSION['old'] ?? [];
+    ?>
+
   <!-- Contenido con formulario -->
   <div class="content">
     <div class="form-container">
@@ -133,9 +137,15 @@
               <option value="2">Tarjeta</option>
               <option value="3">Pasaporte</option>
             </select>
+            <?php if (isset($errores['document_type_id'])): ?>
+              <div class="text-danger small"><?= $errores['document_type_id'] ?></div>
+            <?php endif; ?>
           </div>
           <div class="col-6">
             <input type="text" class="form-control" name="document_number" placeholder="N° Documento">
+          <?php if (isset($errores['document_number'])): ?>
+            <div class="text-danger small"><?= $errores['document_number'] ?></div>
+          <?php endif; ?>
           </div>
         </div>
 
@@ -143,9 +153,15 @@
         <div class="row mb-3">
           <div class="col-6">
             <input type="text" class="form-control" name="name" placeholder="Nombre">
+            <?php if (isset($errores['name'])): ?>
+              <div class="text-danger small"><?= $errores['name'] ?></div>
+            <?php endif; ?>
           </div>
           <div class="col-6">
             <input type="text" class="form-control" name="lastname" placeholder="Apellido">
+            <?php if (isset($errores['last_name'])): ?>
+              <div class="text-danger small"><?= $errores['last_name'] ?></div>
+            <?php endif; ?>
           </div>
         </div>
 
@@ -155,10 +171,16 @@
             <span class="input-group-text"><i class="fa-solid fa-phone"></i></span>
             <input type="text" class="form-control" name="phone" placeholder="Teléfono">
           </div>
+          <?php if (isset($errores['phone'])): ?>
+            <div class="text-danger small"><?= $errores['phone'] ?></div>
+          <?php endif; ?>
           <div class="col-6 input-group">
             <span class="input-group-text"><i class="fa-solid fa-envelope"></i></span>
             <input type="email" class="form-control" name="email" placeholder="Email">
           </div>
+          <?php if (isset($errores['email'])): ?>
+            <div class="text-danger small"><?= $errores['email'] ?></div>
+          <?php endif; ?>
         </div>
 
         <!-- Contraseña -->
@@ -166,6 +188,9 @@
           <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>
           <input type="password" class="form-control" name="password" placeholder="Contraseña">
         </div>
+        <?php if (isset($errores['password'])): ?>
+          <div class="text-danger small"><?= $errores['password'] ?></div>
+        <?php endif; ?>
 
         <!-- Confirmar Contraseña -->
         <div class="input-group mb-3">
@@ -181,6 +206,7 @@
           ¿Ya tienes una cuenta? <a href="#">Inicia sesión aquí</a>
         </div>
       </form>
+      <?php unset($_SESSION['errors']); ?>
     </div>
   </div>
 

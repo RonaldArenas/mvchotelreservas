@@ -37,7 +37,7 @@ class ControllerBase
         if ($create > 0) {
 
             $_SESSION['success'] = 'Usuario registrado exitosamente';
-            header('Location: ' . SITE_URL . 'index.php?action=getLoginUser');
+            header('Location: ' . SITE_URL . 'index.php?action=getFormLoginUser');
             exit;
         } else {
 
@@ -144,10 +144,11 @@ class ControllerBase
             $habitacion = ($datos['habitacion']);
             $personas = ($datos['personas']);
             $comentarios = !empty(trim($datos['comentarios'] ?? '')) ? trim($datos['comentarios']) : '';
-
+             
+            $userId = $_SESSION['user']['id']; // ID del usuario logueado
             // Insertar registro
-            $sql = "INSERT INTO reservations (nombre, apellido, fecha_entrada, fecha_salida, habitacion, personas, comentarios)
-                    VALUES ('$nombre', '$apellido', '$fechaEntrada', '$fechaSalida', '$habitacion', $personas, '$comentarios')";
+            $sql = "INSERT INTO reservations (nombre, apellido, fecha_entrada, fecha_salida, habitacion, personas, comentarios, user_id)
+                    VALUES ('$nombre', '$apellido', '$fechaEntrada', '$fechaSalida', '$habitacion', '$personas', '$comentarios', '$userId')";
 
             $conexion->query($sql);
 
@@ -260,4 +261,3 @@ public function logout() {
 
 }
   
-    
