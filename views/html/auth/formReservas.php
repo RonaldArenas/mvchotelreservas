@@ -110,7 +110,7 @@
       <a href="#">Habitaciones</a>
       <a href="#">Servicios</a>
       <a href="#">Contacto</a>
-      <a href="index.php?action=logout" class="btn-logout">Cerrar sesión</a>
+      <a href="index.php?action=logout" class="btn btn-warning">Cerrar sesión</a>
     </nav>
   </header>
 
@@ -126,13 +126,7 @@
       <form action="<?= SITE_URL ?>index.php?action=registerReserva" method="POST">
         <h2>Reservar habitación</h2>
         <p class="text-muted">Complete los datos para su reserva</p>
-          <?php
-              if (isset($_SESSION['reserva_msg'])) {
-                  $msg = $_SESSION['reserva_msg'];
-                  echo '<div class="alert alert-' . $msg['type'] . ' mt-2">' . $msg['text'] . '</div>';
-                  unset($_SESSION['reserva_msg']); // limpiar para no mostrarlo otra vez
-              }
-          ?>
+          
 
 
         <div class="input-group mb-3">
@@ -183,10 +177,17 @@
     <!-- Tabla de reservas -->
     <div class="table-container">
       <h4 class="mb-3 text-center text-success">Reservas recientes</h4>
+
+      <?php
+          if (isset($_SESSION['reserva_msg'])) {
+              $msg = $_SESSION['reserva_msg'];
+              echo '<div class="alert alert-' . $msg['type'] . ' mt-2">' . $msg['text'] . '</div>';
+              unset($_SESSION['reserva_msg']); // limpiar para no mostrarlo otra vez
+          }
+      ?>
       <table class="table table-striped table-bordered">
         <thead class="table-success">
           <tr>
-            <th>id</th>
             <th>nombre</th>
             <th>Apellido</th>
             <th>Fecha entrada</th>
@@ -210,7 +211,6 @@
               // Recorremos los datos
               while($datos = $resultado->fetch_object()){?>
                 <tr>
-                  <td><?= $datos->id ?></td>
                   <td><?= $datos->nombre ?></td>
                   <td><?= $datos->apellido ?></td>
                   <td><?= $datos->fecha_entrada ?></td>
@@ -219,8 +219,8 @@
                   <td><?= $datos->personas ?></td>
                   <td><?= $datos->comentarios ?></td>
                   <td>
-                    <a href="" class="btn btn-small btn-warning"><i class="fa-solid fa-pen-to-square"></i></a>
-                    <a href="" class="btn btn-small btn-danger"><i class="fa-solid fa-trash"></i></a>
+                    <a href="<?= SITE_URL ?>index.php?action=editarReserva&id=<?= $datos->id ?>" class="btn btn-small btn-warning"><i class="fa-solid fa-pen-to-square"></i></a>
+                    <a href="<?= SITE_URL ?>index.php?action=eliminarReserva&id=<?= $datos->id ?>" onclick="return confirm('¿Estás seguro de eliminar esta reserva?')" class="btn btn-small btn-danger"><i class="fa-solid fa-trash"></i></a>
                   </td>
                 </tr>
               <?php }

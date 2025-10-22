@@ -31,11 +31,19 @@ session_start();
         }
 
         if($_GET['action'] == 'logout' ){
-            $controllerBase->verPaginaInicio('views/html/auth/cerrarsesion.php');
+            $controllerBase->logout();
         }
 
         if($_GET['action'] == 'registerReserva' ){
             $controllerBase->registerReserva($_POST);
+        }
+
+        if($_GET['action'] == 'editarReserva' ){
+            $controllerBase->editarReserva($_POST);
+        }
+
+         if($_GET['action'] == 'eliminarReserva' ){
+            $controllerBase->eliminarReserva($_POST);
         }
 
     }
