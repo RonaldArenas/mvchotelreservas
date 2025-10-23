@@ -15,10 +15,17 @@
         }
 
         public function registerUser($data){
-            $conexion = new  Conexion();
+            $conexion = new Conexion();
             $conexion->conectar();
-            $sql = "INSERT INTO users (document_type_id, document_number, name, lastname, phone,email, password, rol_id) VALUES ('$data[document_type_id]', '$data[document_number]', '$data[name]', '$data[lastname]', '$data[phone]', '$data[email]', '$data[password]', 2)";
+                
+            // 👇 Esta línea guarda el usuario que está haciendo la acción
+            $conexion->setUsuario($data['email']); // CLAVE para auditoría
+                
+            $sql = "INSERT INTO users (document_type_id, document_number, name, lastname, phone, email, password, rol_id)
+                    VALUES ('$data[document_type_id]', '$data[document_number]', '$data[name]', '$data[lastname]',
+                            '$data[phone]', '$data[email]', '$data[password]', 2)";
             $conexion->query($sql);
+                
             return $conexion->getFilasAfectadas();
         }
 

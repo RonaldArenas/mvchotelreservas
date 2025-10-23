@@ -205,7 +205,8 @@
               $conexion->conectar();
 
               // Ejecutamos la consulta
-              $conexion->query("SELECT * FROM reservations");
+              $userId = $_SESSION['user']['id'];
+              $conexion->query("SELECT * FROM reservations WHERE user_id = $userId");
               $resultado = $conexion->getResult(); // obtenemos el resultado
 
               // Recorremos los datos
