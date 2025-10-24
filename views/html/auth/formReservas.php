@@ -230,8 +230,13 @@
         </tbody>
         
       </table>
+      <div class="text-center mt-3">
+        <a href="<?= SITE_URL ?>index.php?action=generateReport" class="btn btn-primary" target="_blank"><i class="fas fa-file-invoice-dollar me-2"></i>Generar Reporte</a>
+      </div>
     </div>
+   
   </div>
+  
 
   <footer>
     © 2025 Hotel Naturaleza - Todos los derechos reservados

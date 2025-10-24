@@ -261,6 +261,10 @@
         exit();
     }
 
+    public function generateReport(){   
+       require_once 'views/reports/reportBase.php';
+    }
+
 
     }
     

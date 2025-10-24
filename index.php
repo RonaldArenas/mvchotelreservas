@@ -5,6 +5,7 @@ session_start();
     require_once 'config/config.php';
     require_once 'models/conexion.php';
     require_once 'models/user.php';
+    require_once 'lib/fpdf/fpdf.php';
 
     $controllerBase = new controllerBase();
 
@@ -44,6 +45,10 @@ session_start();
 
          if($_GET['action'] == 'eliminarReserva' ){
             $controllerBase->eliminarReserva($_POST);
+        }
+
+        if($_GET['action'] == 'generateReport' ){
+            $controllerBase->generateReport();
         }
 
     }
