@@ -2,12 +2,14 @@
 session_start();
 
     require_once 'controllers/controllerBase.php';
+    require_once 'controllers/controllerReservation.php';
     require_once 'config/config.php';
     require_once 'models/conexion.php';
     require_once 'models/user.php';
     require_once 'lib/fpdf/fpdf.php';
 
     $controllerBase = new controllerBase();
+    $controllerReservation = new controllerReservation();
 
     if(isset($_GET['action'])){
 
@@ -32,24 +34,26 @@ session_start();
         }
 
         if($_GET['action'] == 'logout' ){
-            $controllerBase->logout();
+            $controllerReservation->logout();
         }
 
         if($_GET['action'] == 'registerReserva' ){
-            $controllerBase->registerReserva($_POST);
+            $controllerReservation->registerReserva($_POST);
         }
 
         if($_GET['action'] == 'editarReserva' ){
-            $controllerBase->editarReserva($_POST);
+            $controllerReservation->editarReserva($_POST);
         }
 
          if($_GET['action'] == 'eliminarReserva' ){
-            $controllerBase->eliminarReserva($_POST);
+            $controllerReservation->eliminarReserva($_POST);
         }
 
         if($_GET['action'] == 'generateReport' ){
-            $controllerBase->generateReport();
+            $controllerReservation->generateReport();
         }
+
+        
 
     }
 
