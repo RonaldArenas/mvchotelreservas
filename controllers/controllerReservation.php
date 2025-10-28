@@ -141,11 +141,30 @@ class ControllerReservation
         exit();
     }
 
-    public function generateReport(){   
-       require_once 'views/reports/reportBase.php';
-    }
+    public function generateReport() {
+        // Verificar sesión
+        if (!isset($_SESSION['user'])) {
+            header('Location: ' . SITE_URL . 'index.php?action=getFormLoginUser');
+            exit;
+        }
+
+        // Obtener datos del usuario logueado
+        $userId = $_SESSION['user']['id'];
+        $rolId = $_SESSION['user']['rol_id']; // 1 = admin
+
+        // Llamar al modelo
+        $user = new User();
+        $users = $user->getAllUsers($userId, $rolId);
+
+        // Pasar datos a la vista
+        $postData = [
+            'users' => $users
+        ];
+
+        require_once 'views/reports/reportBase.php';
+        }
+
 
 }
        
-
 

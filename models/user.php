@@ -39,4 +39,25 @@
             return $result;
         
         }
+
+        public function getAllUsers($userId = null, $rolId = null) {
+            $conexion = new Conexion();
+            $conexion->conectar();
+
+            if ($rolId == 1) {
+                // Admin: todas las reservas
+                $sql = "SELECT * FROM reservations ORDER BY id DESC";
+            } else {
+                // Usuario normal: solo sus reservas
+                $sql = "SELECT * FROM reservations WHERE user_id = '$userId'";
+            }
+        
+            $conexion->query($sql);
+            $result = $conexion->getResult();
+            $conexion->desconectar();
+
+            return $result;
+            }
+
+
     }
