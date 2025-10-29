@@ -164,7 +164,50 @@ class ControllerReservation
         require_once 'views/reports/reportBase.php';
         }
 
+        public function generateReportExcel() {
+            // Verificar sesión
+            if (!isset($_SESSION['user'])) {
+                header('Location: ' . SITE_URL . 'index.php?action=getFormLoginUser');
+                exit;
+            }
+        
+            $userId = $_SESSION['user']['id'];
+            $userEmail = $_SESSION['user']['email'];
+        
+            // Incluir modelo Reservation
+            require_once "models/reservation.php";
+            $reservation = new Reservation();
+        
+            // Obtener reservas del usuario
+            $result = $reservation->obtenerPorUsuario($userId);
+        
+            // Convertir resultado a array para PhpSpreadsheet
+            $rows = [];
+            if ($result) {
+                while ($row = $result->fetch_assoc()) {
+                    $rows[] = [
+                        'id' => $row['id'],
+                        'nombre' => $row['nombre'],
+                        'apellido' => $row['apellido'],
+                        'fecha_entrada' => $row['fecha_entrada'],
+                        'fecha_salida' => $row['fecha_salida'],
+                        'habitacion' => $row['habitacion'],
+                        'personas' => $row['personas'],
+                        'comentarios' => $row['comentarios']
+                    ];
+                }
+            }
+        
+            // Llamar a la vista Excel
+            require_once 'views/reports/reportExcel.php';
+        }   
+
 
 }
+
+
+
+
+
        
 

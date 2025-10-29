@@ -38,7 +38,7 @@ if ($rowsSource === null) {
         exit;
     }
 
-    $sql = "SELECT id, nombre, apellido, fecha_entrada, fecha_salida, habitacion, numero_personas, comentarios FROM reservations";
+    $sql = "SELECT id, nombre, apellido, fecha_entrada, fecha_salida, habitacion, personas, comentarios FROM reservations";
     $result = $db->query($sql);
 
     if ($result === false) {
@@ -76,6 +76,7 @@ if ($rowsSource === null) {
 }
 
 // --- Generación del PDF ---
+date_default_timezone_set('America/Bogota');
 $pdf = new FPDF();
 $pdf->AddPage();
 
@@ -158,7 +159,8 @@ if (empty($rows)) {
 // Pie
 $pdf->Ln(6);
 $pdf->SetFont('Arial', 'I', 8);
-$pdf->Cell(0, 10, conv('Reporte generado el ' . date('d/m/Y H:i')), 0, 1, 'R');
+$pdf->Cell(0, 10, conv('Reporte generado el ' . date('d/m/Y h:i A') . ' (Hora local Bogotá)'), 0, 1, 'R');
+
 
 // Enviar al navegador en pestaña (I = inline)
 $pdf->Output('I', 'reporte_reservas.pdf');

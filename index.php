@@ -53,6 +53,10 @@ session_start();
             $controllerReservation->generateReport();
         }
 
+        if($_GET['action'] == 'generateReportExcel' ){
+            $controllerReservation->generateReportExcel();
+        }
+
         
 
     }

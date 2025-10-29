@@ -231,7 +231,8 @@
         
       </table>
       <div class="text-center mt-3">
-        <a href="<?= SITE_URL ?>index.php?action=generateReport" class="btn btn-primary" target="_blank"><i class="fas fa-file-invoice-dollar me-2"></i>Generar Reporte</a>
+        <a href="<?= SITE_URL ?>index.php?action=generateReport" class="btn btn-dark" target="_blank"><i class="fas fa-file-invoice-dollar me-2"></i>Generar Reporte PDF</a>
+        <a href="<?= SITE_URL ?>index.php?action=generateReportExcel" class="btn btn-primary" target="_blank"><i class="fas fa-file-invoice-dollar me-2"></i>Generar Reporte EXCEL</a>
       </div>
     </div>
    
