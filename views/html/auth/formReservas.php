@@ -151,20 +151,36 @@
           </div>
         </div>
 
-        <!-- 🔹 Tipo de habitación -->
+       <!-- 🔹 Tipo de habitación -->
         <label for="tipoHabitacion">Tipo de habitación:</label>
-        <select id="tipoHabitacion" name="tipoHabitacion" class="form-control" onchange="cargarHabitaciones()">
+        <select id="tipoHabitacion" name="tipoHabitacion" onchange="cargarHabitaciones()" 
+          style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px;
+                 background-color:#fff; appearance:none; -webkit-appearance:none; 
+                 -moz-appearance:none;
+                 background-image:url('data:image/svg+xml;utf8,<svg fill=%22%23000%22 height=%2220%22 viewBox=%220 0 24 24%22 width=%2220%22 xmlns=%22http://www.w3.org/2000/svg%22><path d=%22M7 10l5 5 5-5z%22/></svg>');
+                 background-repeat:no-repeat;
+                 background-position:right 10px center;
+                 cursor:pointer;">
           <option value="">Seleccione tipo</option>
           <option value="1">Individual</option>
           <option value="2">Doble</option>
           <option value="3">Suite</option>
-        </select>
+        </select><br>
 
         <!-- 🔹 Número de habitación -->
         <label for="numeroHabitacion" class="mt-2">Número de habitación:</label>
-        <select id="numeroHabitacion" name="numeroHabitacion" class="form-control">
+        <select id="numeroHabitacion" name="numeroHabitacion"
+          style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px;
+                 background-color:#fff; appearance:none; -webkit-appearance:none;
+                 -moz-appearance:none;
+                 background-image:url('data:image/svg+xml;utf8,<svg fill=%22%23000%22 height=%2220%22 viewBox=%220 0 24 24%22 width=%2220%22 xmlns=%22http://www.w3.org/2000/svg%22><path d=%22M7 10l5 5 5-5z%22/></svg>');
+                 background-repeat:no-repeat;
+                 background-position:right 10px center;
+                 cursor:pointer;">
           <option value="">Seleccione habitación</option>
-        </select>
+        </select><br><br>
+
+
 
         <!-- 🔹 Script para cargar habitaciones dinámicamente -->
         <script>
