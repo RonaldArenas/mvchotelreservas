@@ -6,6 +6,7 @@
   <title>Reservas - Hotel Naturaleza</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <style>
     body {
       background: url('https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?auto=format&fit=crop&w=1600&q=80') no-repeat center center fixed;
@@ -150,15 +151,50 @@
           </div>
         </div>
 
-        <div class="input-group mb-3">
-          <span class="input-group-text"><i class="fa-solid fa-bed"></i></span>
-          <select name="habitacion" class="form-select" >
-            <option value="">Tipo de habitación...</option>
-            <option value="individual">Individual</option>
-            <option value="doble">Doble</option>
-            <option value="suite">Suite</option>
-          </select>
-        </div>
+        <!-- 🔹 Tipo de habitación -->
+        <label for="tipoHabitacion">Tipo de habitación:</label>
+        <select id="tipoHabitacion" name="tipoHabitacion" class="form-control" onchange="cargarHabitaciones()">
+          <option value="">Seleccione tipo</option>
+          <option value="1">Individual</option>
+          <option value="2">Doble</option>
+          <option value="3">Suite</option>
+        </select>
+
+        <!-- 🔹 Número de habitación -->
+        <label for="numeroHabitacion" class="mt-2">Número de habitación:</label>
+        <select id="numeroHabitacion" name="numeroHabitacion" class="form-control">
+          <option value="">Seleccione habitación</option>
+        </select>
+
+        <!-- 🔹 Script para cargar habitaciones dinámicamente -->
+        <script>
+        function cargarHabitaciones() {
+            var tipo = document.getElementById("tipoHabitacion").value;
+            var selectNumero = document.getElementById("numeroHabitacion");
+        
+            // Limpiar opciones anteriores
+            selectNumero.innerHTML = '<option value="">Seleccione habitación</option>';
+        
+            if (!tipo) return; // Si no hay tipo, salir
+        
+            fetch("views/ajax/getHabitaciones.php?type=" + tipo)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === "success" && data.data.length > 0) {
+                        data.data.forEach(h => {
+                            selectNumero.innerHTML += `<option value="${h.id}">${h.numero}</option>`;
+                        });
+                    } else {
+                        selectNumero.innerHTML = '<option value="">No hay habitaciones disponibles</option>';
+                    }
+                })
+                .catch(err => {
+                    console.error('Error al cargar habitaciones:', err);
+                    selectNumero.innerHTML = '<option value="">Error al obtener datos</option>';
+                });
+        }
+        </script>
+
 
         <div class="input-group mb-3">
           <span class="input-group-text"><i class="fa-solid fa-user-group"></i></span>
@@ -232,7 +268,7 @@
       </table>
       <div class="text-center mt-3">
         <a href="<?= SITE_URL ?>index.php?action=generateReport" class="btn btn-dark" target="_blank"><i class="fas fa-file-invoice-dollar me-2"></i>Generar Reporte PDF</a>
-        <a href="<?= SITE_URL ?>index.php?action=generateReportExcel" class="btn btn-primary" target="_blank"><i class="fas fa-file-invoice-dollar me-2"></i>Generar Reporte EXCEL</a>
+        <a href="<?= SITE_URL ?>index.php?action=generateReportExcel" class="btn btn-primary" onclick=""><i class="fas fa-file-invoice-dollar me-2"></i>Generar Reporte EXCEL</a>
       </div>
     </div>
    
@@ -242,5 +278,44 @@
   <footer>
     © 2025 Hotel Naturaleza - Todos los derechos reservados
   </footer>
+
+  <script>
+function cargarHabitaciones() {
+    var tipoHabitacion = $('#tipoHabitacion').val();
+    var selectNumero = $('#numeroHabitacion');
+
+    // Limpiar opciones anteriores
+    selectNumero.html('<option value="">Seleccione habitación</option>');
+
+    if (tipoHabitacion === "") return; // si no selecciona tipo, salir
+
+    $.ajax({
+        url: 'views/ajax/getHabitaciones.php',
+        type: 'POST',
+        dataType: 'json',
+        data: { type: tipoHabitacion },
+        beforeSend: function() {
+            selectNumero.html('<option value="">Cargando habitaciones...</option>');
+        },
+        success: function(response) {
+            if (response.status === "success" && response.data.length > 0) {
+                selectNumero.html('<option value="">Seleccione habitación</option>');
+                response.data.forEach(function(h) {
+                    selectNumero.append('<option value="' + h.id + '">' + h.numero + '</option>');
+                });
+            } else {
+                selectNumero.html('<option value="">No hay habitaciones disponibles</option>');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("Error AJAX:", error);
+            selectNumero.html('<option value="">Error al cargar habitaciones</option>');
+        }
+    });
+}
+</script>
+
+
+
 </body>
 </html>

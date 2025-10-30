@@ -82,4 +82,9 @@ class conexion {
     return $sql;
     }
 
+    public function getConexion() {
+    return $this->mySQLI;
+    }
+
+
 }
