@@ -34,7 +34,29 @@ class ControllerReservation
                 $conexion->query($sql);
 
                 if ($conexion->getFilasAfectadas() > 0) {
-                    $_SESSION['reserva_msg'] = ['type' => 'success', 'text' => 'Reserva registrada con éxito'];
+
+                    // 🔹 Enviar correo de confirmación
+                    require_once "helpers/MailerHelper.php";
+
+                    $correoCliente = $_SESSION['user']['email'];
+                    $nombreCompleto = $nombre . ' ' . $apellido;
+
+                    $datosReserva = [
+                        'fecha_entrada' => $fechaEntrada,
+                        'fecha_salida' => $fechaSalida,
+                        'habitacion' => $habitacion,
+                        'personas' => $personas,
+                        'comentarios' => $comentarios
+                    ];
+                
+                    $correoEnviado = MailerHelper::enviarCorreoReserva($correoCliente, $nombreCompleto, $datosReserva);
+                
+                    if ($correoEnviado) {
+                        $_SESSION['reserva_msg'] = ['type' => 'success', 'text' => '✅ Reserva registrada y correo enviado con éxito'];
+                    } else {
+                        $_SESSION['reserva_msg'] = ['type' => 'warning', 'text' => '⚠️ Reserva registrada, pero no se pudo enviar el correo'];
+                    }
+                
                 } else {
                     $_SESSION['reserva_msg'] = ['type' => 'danger', 'text' => 'Error al registrar la reserva. Inténtelo de nuevo.'];
                 }
@@ -204,10 +226,4 @@ class ControllerReservation
 
 
 }
-
-
-
-
-
-       
 

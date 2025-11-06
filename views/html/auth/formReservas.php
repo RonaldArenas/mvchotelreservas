@@ -169,7 +169,7 @@
 
         <!-- 🔹 Número de habitación -->
         <label for="numeroHabitacion" class="mt-2">Número de habitación:</label>
-        <select id="numeroHabitacion" name="numeroHabitacion"
+        <select id="numeroHabitacion" name="habitacion"
           style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px;
                  background-color:#fff; appearance:none; -webkit-appearance:none;
                  -moz-appearance:none;
