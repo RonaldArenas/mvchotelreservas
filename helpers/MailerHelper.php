@@ -53,6 +53,7 @@ class MailerHelper
                         <h3 style='color:#2e8b57; border-bottom:2px solid #2e8b57; display:inline-block;'>Detalles de la reserva</h3>
                         <ul style='line-height:1.7; list-style:none; padding:0;'>
                             <li>🏡 <b>Tipo de habitación:</b> {$datosReserva['habitacion']}</li>
+                            <li>🔢 <b>Número de habitación:</b> {$datosReserva['numero']}</li>
                             <li>📅 <b>Fecha de entrada:</b> {$datosReserva['fecha_entrada']}</li>
                             <li>📅 <b>Fecha de salida:</b> {$datosReserva['fecha_salida']}</li>
                             <li>👥 <b>Personas:</b> {$datosReserva['personas']}</li>
@@ -72,7 +73,8 @@ class MailerHelper
             </div>
             ";
 
-            $mail->AltBody = "Se realizó una reserva a nombre de {$nombreCliente}, tipo de habitación {$datosReserva['habitacion']}. Gracias por elegir Hotel Naturaleza.";
+            $mail->AltBody = "Reserva a nombre de {$nombreCliente}, habitación {$datosReserva['habitacion']} número {$datosReserva['numero']}.";
+
 
             $mail->send();
             return true;

@@ -75,6 +75,13 @@ class Reservation {
         $this->conexion->query($sql);
         return $this->conexion->getResult();
     }
+    // 🔹 Obtener datos reales de una habitación (número y tipo)
+    public function obtenerDatosHabitacion($idHabitacion) {
+        $sql = "SELECT numero, type FROM rooms WHERE id = $idHabitacion LIMIT 1";
+        $this->conexion->query($sql);
+        return $this->conexion->getResult()->fetch_assoc();
+    }
+
 
     // 🔹 Obtener cuántas filas fueron afectadas
     public function getFilasAfectadas() {

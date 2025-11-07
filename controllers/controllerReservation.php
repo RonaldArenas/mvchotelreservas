@@ -22,6 +22,22 @@ class ControllerReservation
                 $fechaEntrada = ($datos['fecha_entrada']);
                 $fechaSalida = ($datos['fecha_salida']);
                 $habitacion = ($datos['habitacion']);
+                require_once "models/reservation.php";
+                $roomModel = new Reservation();
+                $roomData = $roomModel->obtenerDatosHabitacion($habitacion);
+                                
+                // Datos reales
+                $numeroHabitacion = $roomData['numero']; // Ej: 101, 202, 303
+                $tipoHabitacion = $roomData['type'];     // 1, 2, 3
+                                
+                // ✅ Convertimos tipo numérico a texto
+                $tipos = [
+                    1 => "Individual",
+                    2 => "Doble",
+                    3 => "Suite"
+                ];
+                
+                $tipoHabitacionTexto = $tipos[$tipoHabitacion] ?? "Desconocido";
                 $personas = ($datos['personas']);
                 $comentarios = !empty(trim($datos['comentarios'] ?? '')) ? trim($datos['comentarios']) : '';
                 
@@ -44,10 +60,12 @@ class ControllerReservation
                     $datosReserva = [
                         'fecha_entrada' => $fechaEntrada,
                         'fecha_salida' => $fechaSalida,
-                        'habitacion' => $habitacion,
+                        'habitacion' => $tipoHabitacionTexto, // Individual / Doble / Suite
+                        'numero' => $numeroHabitacion,        // 101 / 202 / 303
                         'personas' => $personas,
                         'comentarios' => $comentarios
                     ];
+
                 
                     $correoEnviado = MailerHelper::enviarCorreoReserva($correoCliente, $nombreCompleto, $datosReserva);
                 
